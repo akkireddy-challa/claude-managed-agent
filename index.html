@@ -15,7 +15,7 @@
       <div>
         <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
           <h1>pr-digest</h1>
-          <span class="statepill live"><span class="led live"></span>LAUNCHED · RUN 1 IN PROGRESS</span>
+          <span class="statepill live"><span class="led live"></span>DEPLOYED · LIVE</span>
         </div>
         <div class="byline">Claude Managed Agent · akkireddy-challa · created 2026-10-14</div>
       </div>
@@ -36,12 +36,13 @@
     <div class="col">
       <p class="col-title">Trigger</p>
       <div class="node key grow">
-        <div class="node-head"><span class="node-icon">▶️</span><h2>On-demand session</h2><span class="node-meta">manual · <b>LAUNCH.md</b></span></div>
+        <div class="node-head"><span class="node-icon">🗓️</span><h2>Deployment</h2><span class="node-meta">cron · <b>0 17 * * 5</b></span></div>
         <div class="node-body">
-          <div class="field"><div class="field-k">initial event</div><p class="small sub">Each run creates a fresh ▶️ session and sends the 🎯 outcome (right) — task + rubric.</p></div>
-          <div class="field"><div class="field-k">window</div><strong>last 7 days as of the run</strong> <span class="sub small">Europe/London · case 1 test uses 30 days</span></div>
+          <div class="field"><div class="field-k">schedule · expression / timezone</div><strong>Every Friday · 17:00</strong> <span class="sub small">Europe/London</span></div>
+          <div class="field"><div class="field-k">Status</div><a class="console" href="https://platform.claude.com/workspaces/default/deployments/depl_01XR6M18zhZoCR3cR1opf2Pz">depl_01XR…f2Pz</a> <span class="tag good">active · pinned agent v2</span> <span class="sub small">next: Fri 16 Oct</span></div>
+          <div class="field"><div class="field-k">initial_events</div><p class="small sub">Each firing replays the 🎯 outcome (right) — the last 7 days as of the run — into a fresh ▶️ session.</p></div>
         </div>
-        <div class="node-foot">🗓️ Deployment — not scheduled yet; <code>0 17 * * 5</code> Europe/London is v1 on the version rail.</div>
+        <div class="node-foot">▶️ Also runs on demand any time — <code>./run.sh</code> fires the same agent with the same outcome.</div>
       </div>
     </div>
 
@@ -115,14 +116,15 @@
 
   <div class="lane-grid">
     <div class="lane">
-      <div class="lane-head"><span class="node-icon">📜</span><h2>Sessions · run log</h2><span class="lane-meta">2 runs</span></div>
+      <div class="lane-head"><span class="node-icon">📜</span><h2>Sessions · run log</h2><span class="lane-meta">3 runs</span></div>
       <div class="lane-body">
         <div class="overflow">
         <table>
           <thead><tr><th>Run</th><th>Session</th><th>Rubric</th><th>Verdict</th><th>Note</th></tr></thead>
           <tbody>
             <tr><td>1 · v1</td><td class="mono"><a class="console" href="https://platform.claude.com/workspaces/default/sessions/sesn_01MToGXHiKi5MTpMgQDsAg8a">sesn_01MT…Ag8a</a></td><td>6 criteria</td><td><span class="tag good">satisfied · 1st try</span></td><td class="sub">case-01 · 30d · accurate but empty — 0 PRs in window; work lands as direct commits → v2</td></tr>
-            <tr><td>2 · v2</td><td class="mono"><a class="console" href="https://platform.claude.com/workspaces/default/sessions/sesn_01WziNsTnGQDPbLKobhFqxxn">sesn_01Wz…qxxn</a></td><td>6 criteria (sharpened)</td><td><span class="tag">running</span></td><td class="sub">case-01 · 30d · + direct commits, stale-PR line, bots excluded</td></tr>
+            <tr><td>2 · v2</td><td class="mono"><a class="console" href="https://platform.claude.com/workspaces/default/sessions/sesn_01WziNsTnGQDPbLKobhFqxxn">sesn_01Wz…qxxn</a></td><td>6 criteria (sharpened)</td><td><span class="tag good">satisfied · 1st try</span></td><td class="sub">case-01 · 30d · 61 commits / 3 repos / 2 contributors — matches hand count</td></tr>
+            <tr><td>3 · v2</td><td class="mono"><a class="console" href="https://platform.claude.com/workspaces/default/sessions/sesn_01WUTgSBu5Bx9oVqGJWowAfG">sesn_01WU…AfG</a></td><td>6 criteria</td><td><span class="tag good">satisfied · 1st try</span></td><td class="sub">🗓️ deployment manual run · 7-day window · 1 commit, 1 contributor</td></tr>
           </tbody>
         </table>
         </div>
@@ -135,7 +137,7 @@
         <table>
           <thead><tr><th>Case</th><th>Known-good answer</th><th>Last verdict</th></tr></thead>
           <tbody>
-            <tr><td class="mono">case-01 · 30-day window</td><td>First verified run, saved at close</td><td><span class="tag">not run yet</span></td></tr>
+            <tr><td class="mono">case-01 · 30-day window</td><td><span class="mono">evals/case-01/expected.html</span> (v2 run)</td><td><span class="tag good">v2 · satisfied</span></td></tr>
           </tbody>
         </table>
         </div>
@@ -149,9 +151,9 @@
     <div class="lane-body">
       <div class="rail">
         <div class="ver">
-          <div class="ver-tag">v1</div>
+          <div class="ver-tag">v1 ✓ shipped</div>
           <div class="ver-what">🗓️ Every Friday 17:00, Europe/London</div>
-          <div class="ver-why">Planned next — once v0 passes the rubric</div>
+          <div class="ver-why">Shipped 2026-10-14 — deployment live, pinned to agent v2</div>
           <div class="ver-how"><span class="mono">POST /v1/deployments</span> · cron <span class="mono">0 17 * * 5</span> + vault, relative dates</div>
         </div>
         <div class="ver">

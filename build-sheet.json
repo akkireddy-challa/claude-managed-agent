@@ -139,17 +139,5 @@
       "why_deferred": "Process habit",
       "how": "evals/run-evals.sh against the new version"
     }
-  ],
-  "ids": {
-    "MODEL": "claude-opus-5-5",
-    "ENV_ID": "env_01RYs36XAgXUtX7mUCoD8p75",
-    "AGENT_ID": "agent_01K1DDc9H3gcMQaB85GzNWot",
-    "AGENT_VERSION": "2",
-    "VAULT_ID": "vlt_011Cg2AYNaJCc5aZu58f6eaN",
-    "GITHUB_CRED_ID": "vcrd_012iqkxXqpi6AsJSXvLAobq2",
-    "sessions": [
-      "sesn_01MToGXHiKi5MTpMgQDsAg8a",
-      "sesn_01WziNsTnGQDPbLKobhFqxxn"
-    ]
-  }
+  ]
 }
