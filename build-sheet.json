@@ -1,0 +1,155 @@
+{
+  "meta": {
+    "founder": "akkireddy-challa",
+    "company": null,
+    "problem": "A weekly digest of my GitHub PRs \u2014 merged & shipped, needs attention / blocked, high-impact changes, and a velocity snapshot \u2014 as a polished HTML page with an executive summary table.",
+    "created": "2026-10-14",
+    "skill_version": "0.1",
+    "iteration_log": [
+      "v1 \u2192 v2: founder's work lands as direct commits, not PRs \u2192 digest tracks PRs + default-branch commits; stale open PRs collapsed; bot activity excluded"
+    ]
+  },
+  "agent": {
+    "name": "pr-digest",
+    "model": "claude-opus-5-5",
+    "model_rationale": "Newest Opus-class \u2014 the default; judgment on 'major' and 'high-impact' benefits from quality, and a weekly run costs cents.",
+    "version": 2,
+    "system_summary": "Scans akkireddy-challa's repos with PR or direct-commit activity in the window via the GitHub API (vault token); bots excluded, stale PRs collapsed; writes digest.html + digest-data.json.",
+    "never_dos": [
+      "Never modify anything on GitHub \u2014 read-only calls only",
+      "Never invent or estimate PRs, numbers, authors or dates",
+      "Never include the token or any secret in outputs"
+    ]
+  },
+  "outcome": {
+    "description": "first_prompt.txt (case 1: 30-day window) / deployment_prompt.txt (weekly: 7-day window)",
+    "rubric_criteria": [
+      "One self-contained digest.html with an executive summary table and window start/end",
+      "All four sections; Merged & Shipped = merged PRs + direct commits grouped by repo and theme",
+      "Every PR/commit links to its real URL with repo and author; nothing invented",
+      "Needs Attention = in-window open PRs >48h unapproved or changes requested; stale PRs collapsed to one line per repo",
+      "Velocity (PRs merged/opened, non-bot commits, contributors) consistent with sections and digest-data.json",
+      "Only non-bot activity counts; bots noted in one line; scanned repos listed"
+    ],
+    "max_iterations": 3
+  },
+  "tools": {
+    "toolset": "agent_toolset_20260401",
+    "enabled": [
+      "bash",
+      "read",
+      "write",
+      "edit",
+      "glob",
+      "grep",
+      "web_search",
+      "web_fetch"
+    ],
+    "disabled": [],
+    "permission_overrides": [],
+    "custom_tools": []
+  },
+  "connections": {
+    "mcp_servers": [],
+    "vault_credentials": [
+      {
+        "vault": "akkireddy-challa",
+        "type": "environment_variable",
+        "secret_name": "GITHUB_TOKEN",
+        "allowed_hosts": [
+          "api.github.com"
+        ],
+        "scope": "fine-grained, read-only: Pull requests, Contents, Metadata; owner akkireddy-challa, all repos"
+      }
+    ],
+    "github": "REST/GraphQL via curl with the vault-injected token (not a github_repository resource \u2014 the digest spans many repos and needs no checkout)",
+    "notes": "One owner only (no org). An org would need a second fine-grained token \u2014 see NEXT-DIRECTIONS."
+  },
+  "skills": [],
+  "memory": {
+    "stores": []
+  },
+  "environment": {
+    "name": "pr-digest-env",
+    "type": "cloud",
+    "networking": "unrestricted",
+    "allowed_hosts": [],
+    "packages": {}
+  },
+  "schedule": {
+    "mode": "on-demand (v0); scheduled in v1",
+    "cron": "0 17 * * 5",
+    "timezone": "Europe/London",
+    "human": "Every Friday at 5:00 PM UK time (v1)",
+    "kickoff": "user.define_outcome \u2014 deployment_prompt.txt + outcome.md, max_iterations 3"
+  },
+  "evals": {
+    "cases": [
+      {
+        "name": "case-01",
+        "input": "first_prompt.txt (30-day window, live data)",
+        "expected": "First verified run's digest, saved at close as evals/case-01/expected.html",
+        "last_verdict": "v1: satisfied (accurate, but empty \u2014 0 PRs); v2: running"
+      }
+    ],
+    "notes": "Fresh data every run \u2014 the rubric is the per-run eval; case 1 is the regression baseline. Velocity counts are cross-checked against the GitHub API by hand on run 1."
+  },
+  "defaults_applied": {
+    "iteration_bound": "Outcome stops after 3 grade-and-improve cycles",
+    "write_actions": "None \u2014 read-only token, read-only instructions"
+  },
+  "interface": {
+    "who": "akkireddy-challa",
+    "how": "Digest downloaded to runs/<session>/digest.html and opened in the browser; Console for run history."
+  },
+  "next_directions": [
+    {
+      "version": "v1",
+      "what": "Run every Friday 17:00 Europe/London",
+      "why_deferred": "Scheduled for v1 at the founder's request",
+      "how": "POST /v1/deployments \u2014 cron 0 17 * * 5, Europe/London, initial_events from deployment_prompt.txt + outcome.md, vault_ids"
+    },
+    {
+      "version": "v2",
+      "what": "Week-over-week trends",
+      "why_deferred": "Possible \u2014 out of scope for v0",
+      "how": "Memory store (read_write) holding last week's digest-data.json"
+    },
+    {
+      "version": "v2",
+      "what": "Deliver by email / Slack",
+      "why_deferred": "Needs a connector credential",
+      "how": "MCP server + vault credential, gated always_ask"
+    },
+    {
+      "version": "v2",
+      "what": "Lock networking to GitHub",
+      "why_deferred": "Hardening \u2014 fine while read-only",
+      "how": "Environment networking: limited, allowed_hosts [api.github.com, github.com]"
+    },
+    {
+      "version": "later",
+      "what": "Org repos",
+      "why_deferred": "Needs a credential \u2014 no org yet",
+      "how": "Second fine-grained token in the same vault (GITHUB_TOKEN_ORG)"
+    },
+    {
+      "version": "always",
+      "what": "Re-run evals before promoting a new agent version",
+      "why_deferred": "Process habit",
+      "how": "evals/run-evals.sh against the new version"
+    }
+  ],
+  "ids": {
+    "MODEL": "claude-opus-5-5",
+    "ENV_ID": "env_01RYs36XAgXUtX7mUCoD8p75",
+    "AGENT_ID": "agent_01K1DDc9H3gcMQaB85GzNWot",
+    "AGENT_VERSION": "2",
+    "VAULT_ID": "vlt_011Cg2AYNaJCc5aZu58f6eaN",
+    "GITHUB_CRED_ID": "vcrd_012iqkxXqpi6AsJSXvLAobq2",
+    "sessions": [
+      "sesn_01MToGXHiKi5MTpMgQDsAg8a",
+      "sesn_01WziNsTnGQDPbLKobhFqxxn"
+    ]
+  }
+}

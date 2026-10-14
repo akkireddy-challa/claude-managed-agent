@@ -1,0 +1,188 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>pr-digest — agent schema</title>
+<link rel="stylesheet" href="overview.css">
+</head>
+<body>
+<div class="wrap">
+
+  <div class="topbar">
+    <div class="ident">
+      <div class="sigil">🤖</div>
+      <div>
+        <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
+          <h1>pr-digest</h1>
+          <span class="statepill live"><span class="led live"></span>LAUNCHED · RUN 1 IN PROGRESS</span>
+        </div>
+        <div class="byline">Claude Managed Agent · akkireddy-challa · created 2026-10-14</div>
+      </div>
+    </div>
+    <div class="stats">
+      <div class="stat"><div class="stat-k">Model</div><div class="stat-v">claude-opus-5-5</div></div>
+      <div class="stat"><div class="stat-k">Runs</div><div class="stat-v">on demand <span class="dim">· Fri 17:00 in v1</span></div></div>
+      <div class="stat"><div class="stat-k">Agent</div><div class="stat-v"><a class="console" href="https://platform.claude.com/workspaces/default/agents/agent_01K1DDc9H3gcMQaB85GzNWot">agent_01K1…zNWot</a> <span class="dim">v2</span></div></div>
+      <div class="stat"><div class="stat-k">Environment</div><div class="stat-v"><span class="mono">env_01RY…D8p75</span></div></div>
+    </div>
+  </div>
+
+  <p class="problem">A weekly digest of my GitHub PRs — merged &amp; shipped, needs attention / blocked, high-impact changes, and a velocity snapshot — as a polished HTML page with an executive summary table.</p>
+
+  <p class="lane-label">System schema</p>
+  <div class="pipeline">
+
+    <div class="col">
+      <p class="col-title">Trigger</p>
+      <div class="node key grow">
+        <div class="node-head"><span class="node-icon">▶️</span><h2>On-demand session</h2><span class="node-meta">manual · <b>LAUNCH.md</b></span></div>
+        <div class="node-body">
+          <div class="field"><div class="field-k">initial event</div><p class="small sub">Each run creates a fresh ▶️ session and sends the 🎯 outcome (right) — task + rubric.</p></div>
+          <div class="field"><div class="field-k">window</div><strong>last 7 days as of the run</strong> <span class="sub small">Europe/London · case 1 test uses 30 days</span></div>
+        </div>
+        <div class="node-foot">🗓️ Deployment — not scheduled yet; <code>0 17 * * 5</code> Europe/London is v1 on the version rail.</div>
+      </div>
+    </div>
+
+    <div class="joint" aria-hidden="true"></div>
+
+    <div class="col">
+      <p class="col-title">Worker</p>
+      <div class="env-frame">
+        <span class="env-tab">📦 environment · type: cloud · networking: unrestricted · packages: none</span>
+
+        <div class="node key">
+          <div class="node-head"><span class="node-icon">🤖</span><h2>Agent — pr-digest</h2><span class="node-meta"><b>claude-opus-5-5</b> · v2</span></div>
+          <div class="node-body">
+            <div class="field"><div class="field-k">system · the job</div>
+              <p class="small">Scans <code>akkireddy-challa</code>'s repos with PR or direct-commit activity in the window via the GitHub API (bots excluded, stale PRs collapsed); writes <code>/mnt/session/outputs/digest.html</code>. Read-only on GitHub.</p></div>
+          </div>
+        </div>
+
+        <div class="attach-grid">
+          <div class="attach">
+            <h3>🛠️ Tools</h3>
+            <p><code>tools[] · agent_toolset_20260401</code><br><span class="tag on">bash</span><span class="tag">read</span><span class="tag">write</span><span class="tag">edit</span><span class="tag">glob</span><span class="tag">grep</span><span class="tag">web_search</span><span class="tag">web_fetch</span></p>
+          </div>
+          <div class="attach">
+            <h3>🔐 Vault</h3>
+            <p><code>vault_ids[] · environment_variable</code> <span class="mono">vlt_011C…f6eaN</span> <strong>GITHUB_TOKEN</strong> — read-only fine-grained token, substituted only on requests to <span class="mono">api.github.com</span>.</p>
+          </div>
+          <div class="attach ghost">
+            <h3>🧠 Memory store</h3>
+            <p><code>resources[] · memory_store</code> — none in v0; week-over-week trends are v2.</p>
+          </div>
+          <div class="attach ghost">
+            <h3>📄 Skills</h3>
+            <p><code>skills[]</code> — empty; self-contained HTML output.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="joint" aria-hidden="true"></div>
+
+    <div class="col">
+      <p class="col-title">Output &amp; grading</p>
+
+      <div class="node">
+        <div class="node-head"><span class="node-icon">📤</span><h2>Deliverable</h2><span class="node-meta">files api</span></div>
+        <div class="node-body">
+          <p class="small"><code>digest.html</code> — executive summary table + 4 sections, downloaded to open locally.</p>
+          <p><a href="digest.html" target="_blank" style="display:inline-block;margin-top:6px;padding:4px 10px;background:#2563eb;color:#fff;border-radius:6px;font-size:12px;font-weight:600;text-decoration:none;">📄 View Latest Generated Digest →</a></p>
+          <div class="field"><div class="field-k">Guardrails in effect</div>
+            <span class="tag">max_iterations: 3</span><span class="tag">read-only token — no writes to GitHub</span></div>
+        </div>
+      </div>
+
+      <div class="node key grow">
+        <div class="node-head"><span class="node-icon">🎯</span><h2>Outcome</h2><span class="node-meta"><b>user.define_outcome</b> · max_iterations 3</span></div>
+        <div class="node-body">
+          <p class="small sub" style="margin-bottom:8px;">Your definition of done — <code>rubric.content</code>, graded by the platform every run.</p>
+          <ol class="rubric small">
+            <li>One self-contained digest.html with an executive summary table up top</li>
+            <li>All four sections; Shipped = merged PRs + direct commits, grouped by repo and theme</li>
+            <li>Every PR / commit links to its real URL with repo + author; nothing invented</li>
+            <li>Needs Attention = in-window open PRs &gt;48h unapproved or changes requested; stale PRs collapsed to one line</li>
+            <li>Velocity (PRs, commits, contributors) consistent with sections + digest-data.json</li>
+            <li>Only non-bot activity counts; bots noted in one line; repos scanned listed</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="lane-grid">
+    <div class="lane">
+      <div class="lane-head"><span class="node-icon">📜</span><h2>Sessions · run log</h2><span class="lane-meta">2 runs</span></div>
+      <div class="lane-body">
+        <div class="overflow">
+        <table>
+          <thead><tr><th>Run</th><th>Session</th><th>Rubric</th><th>Verdict</th><th>Note</th></tr></thead>
+          <tbody>
+            <tr><td>1 · v1</td><td class="mono"><a class="console" href="https://platform.claude.com/workspaces/default/sessions/sesn_01MToGXHiKi5MTpMgQDsAg8a">sesn_01MT…Ag8a</a></td><td>6 criteria</td><td><span class="tag good">satisfied · 1st try</span></td><td class="sub">case-01 · 30d · accurate but empty — 0 PRs in window; work lands as direct commits → v2</td></tr>
+            <tr><td>2 · v2</td><td class="mono"><a class="console" href="https://platform.claude.com/workspaces/default/sessions/sesn_01WziNsTnGQDPbLKobhFqxxn">sesn_01Wz…qxxn</a></td><td>6 criteria (sharpened)</td><td><span class="tag">running</span></td><td class="sub">case-01 · 30d · + direct commits, stale-PR line, bots excluded</td></tr>
+          </tbody>
+        </table>
+        </div>
+      </div>
+    </div>
+    <div class="lane">
+      <div class="lane-head"><span class="node-icon">🧪</span><h2>Evals</h2><span class="lane-meta">1 case · baseline</span></div>
+      <div class="lane-body">
+        <div class="overflow">
+        <table>
+          <thead><tr><th>Case</th><th>Known-good answer</th><th>Last verdict</th></tr></thead>
+          <tbody>
+            <tr><td class="mono">case-01 · 30-day window</td><td>First verified run, saved at close</td><td><span class="tag">not run yet</span></td></tr>
+          </tbody>
+        </table>
+        </div>
+        <p class="small sub" style="margin:.5em 0 0;">Fresh data every week — the rubric is the per-run eval; case 1 is the regression baseline for the next agent version.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="lane full">
+    <div class="lane-head"><span class="node-icon">🧭</span><h2>Next directions</h2><span class="lane-meta">the version rail</span></div>
+    <div class="lane-body">
+      <div class="rail">
+        <div class="ver">
+          <div class="ver-tag">v1</div>
+          <div class="ver-what">🗓️ Every Friday 17:00, Europe/London</div>
+          <div class="ver-why">Planned next — once v0 passes the rubric</div>
+          <div class="ver-how"><span class="mono">POST /v1/deployments</span> · cron <span class="mono">0 17 * * 5</span> + vault, relative dates</div>
+        </div>
+        <div class="ver">
+          <div class="ver-tag">v2</div>
+          <div class="ver-what">Week-over-week trends</div>
+          <div class="ver-why">Possible — out of scope for v0</div>
+          <div class="ver-how">🧠 memory store <span class="mono">read_write</span> holding last week's numbers</div>
+        </div>
+        <div class="ver">
+          <div class="ver-tag">v2</div>
+          <div class="ver-what">Deliver by email / Slack</div>
+          <div class="ver-why">Needs a connector credential</div>
+          <div class="ver-how">🔌 MCP server + 🔐 vault, gated <span class="mono">always_ask</span></div>
+        </div>
+        <div class="ver">
+          <div class="ver-tag">v2</div>
+          <div class="ver-what">Lock networking to GitHub</div>
+          <div class="ver-why">Hardening — fine while read-only</div>
+          <div class="ver-how">Environment <span class="mono">networking: limited</span> + <span class="mono">allowed_hosts</span></div>
+        </div>
+        <div class="ver">
+          <div class="ver-tag">always</div>
+          <div class="ver-what">Re-run evals before promoting a version</div>
+          <div class="ver-why">Process habit</div>
+          <div class="ver-how"><span class="mono">evals/run-evals.sh</span> against the new version</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer>generated from build-sheet.json by claude code · live runs &amp; traces: <a href="https://platform.claude.com/workspaces/default/agents">open the console</a> (your key's workspace — swap "default" if yours differs)</footer>
+</div>
+</body>
+</html>
